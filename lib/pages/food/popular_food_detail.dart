@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../controllers/popular_product_controller.dart';
+import '../../utils/app_constants.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimensions.dart';
 import '../../widgets/app_column.dart';
@@ -9,12 +12,18 @@ import '../../widgets/big_text.dart';
 import '../../widgets/expandable_text_widget.dart';
 import '../../widgets/icon_and_text_widget.dart';
 import '../../widgets/small_text.dart';
+import '../home/main_food_page.dart';
 
 class PopularFoodDetail extends StatelessWidget {
-  const PopularFoodDetail({super.key});
+  int pageId;
+  PopularFoodDetail({Key? key, required this.pageId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var product =
+        Get.find<PopularProductController>().popularProductList[pageId];
+    //print("page id is " + pageId.toString());
+    //print("product name is " + product.name.toString());
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -29,7 +38,9 @@ class PopularFoodDetail extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage('image/typeC.jpg'),
+                  image: NetworkImage(
+                    AppConstants.BASE_URL+AppConstants.UPLOAD_URL+product.img!
+                  ),
                 ),
               ),
             ),
@@ -42,7 +53,11 @@ class PopularFoodDetail extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppIcon(icon: Icons.arrow_back_ios),
+                GestureDetector(
+                    onTap: () {
+                      Get.to(() => MainFoodPage());
+                    },
+                    child: AppIcon(icon: Icons.arrow_back_ios)),
                 AppIcon(icon: Icons.shopping_cart_outlined),
               ],
             ),
@@ -52,7 +67,7 @@ class PopularFoodDetail extends StatelessWidget {
             left: 0,
             right: 0,
             bottom: 0,
-            top: Dimensions.popularFoodImgSize - 100,
+            top: Dimensions.popularFoodImgSize ,
             child: Container(
               padding: EdgeInsets.only(
                   left: Dimensions.width20,
@@ -68,15 +83,14 @@ class PopularFoodDetail extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppColumn(text: 'Cultural Foods'),
+                  AppColumn(text: product.name!),
                   SizedBox(height: Dimensions.height20),
                   BigText(text: 'Introduce'),
                   SizedBox(height: Dimensions.height20),
-                  const Expanded(
+                  Expanded(
                       child: SingleChildScrollView(
-                          child: ExpandableTextWidget(
-                              text:
-                                  "When you travel to Ethiopia, you’ll be wonderfully surprised by the food on offer. Rich, spicy, and flavorful…there’s an Ethiopian meal waiting for you. As well as all these traditional Ethiopian cultural foods for you to try, if possible, stick to the cultural way of only eating with your hands. Ethiopians only use their right hand for eating, as the left hand is considered to be unclean. However, with Ethiopia becoming such a popular country to visit, many restaurants will happily provide you with a fork and knife. ")))
+                          child:
+                              ExpandableTextWidget(text: product.description!)))
                 ],
               ),
             ),
@@ -132,16 +146,16 @@ class PopularFoodDetail extends StatelessWidget {
             ),
             Container(
               padding: EdgeInsets.only(
-                  top: Dimensions.height20,
-                  bottom: Dimensions.height20,
-                  left: Dimensions.width20,
-                  right: Dimensions.width20),
+                  top: Dimensions.height45,
+                  bottom: Dimensions.height45,
+                  left: Dimensions.width30,
+                  right: Dimensions.width30),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Dimensions.radius20),
                 color: AppColors.mainColor,
               ),
               child:
-                  BigText(text: " Birr10 | Add to cart", color: Colors.white),
+                  BigText(text: " Birr${product.price!} | Add to cart", color: Colors.white),
             ),
           ],
         ),

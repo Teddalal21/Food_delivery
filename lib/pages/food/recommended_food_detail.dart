@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../route/route_helper.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimensions.dart';
 import '../../widgets/app_icon.dart';
@@ -17,11 +19,17 @@ class RecommendFoodDetail extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            automaticallyImplyLeading: false,
             toolbarHeight: 70,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppIcon(icon: Icons.clear),
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(RouteHelper.getInitial());
+                  },
+                  child: AppIcon(icon: Icons.clear),
+                ),
                 AppIcon(icon: Icons.shopping_cart_outlined),
               ],
             ),
@@ -99,55 +107,54 @@ class RecommendFoodDetail extends StatelessWidget {
               ],
             ),
           ),
-        Container(
-        height: Dimensions.bottomHeightBar,
-        padding: EdgeInsets.only(
-            top: Dimensions.height30,
-            bottom: Dimensions.height30,
-            left: Dimensions.width20,
-            right: Dimensions.width20),
-        decoration: BoxDecoration(
-          color: AppColors.buttonBackgroundColor,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(Dimensions.radius20 * 2),
-            topRight: Radius.circular(Dimensions.radius20 * 2),
+          Container(
+            height: Dimensions.bottomHeightBar,
+            padding: EdgeInsets.only(
+                top: Dimensions.height30,
+                bottom: Dimensions.height30,
+                left: Dimensions.width20,
+                right: Dimensions.width20),
+            decoration: BoxDecoration(
+              color: AppColors.buttonBackgroundColor,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(Dimensions.radius20 * 2),
+                topRight: Radius.circular(Dimensions.radius20 * 2),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(
+                      top: Dimensions.height20,
+                      bottom: Dimensions.height20,
+                      left: Dimensions.width20,
+                      right: Dimensions.width20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimensions.radius20),
+                    color: Colors.white,
+                  ),
+                  child: Icon(
+                    Icons.favorite,
+                    color: AppColors.mainColor,
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(
+                      top: Dimensions.height20,
+                      bottom: Dimensions.height20,
+                      left: Dimensions.width20,
+                      right: Dimensions.width20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimensions.radius20),
+                    color: AppColors.mainColor,
+                  ),
+                  child: BigText(
+                      text: " Birr10 | Add to cart", color: Colors.white),
+                ),
+              ],
+            ),
           ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              padding: EdgeInsets.only(
-                  top: Dimensions.height20,
-                  bottom: Dimensions.height20,
-                  left: Dimensions.width20,
-                  right: Dimensions.width20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius20),
-                color: Colors.white,
-              ),
-              child: Icon(
-                Icons.favorite,
-                color: AppColors.mainColor,
-                
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(
-                  top: Dimensions.height20,
-                  bottom: Dimensions.height20,
-                  left: Dimensions.width20,
-                  right: Dimensions.width20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius20),
-                color: AppColors.mainColor,
-              ),
-              child:
-                  BigText(text: " Birr10 | Add to cart", color: Colors.white),
-            ),
-          ],
-        ),
-      ),
         ],
       ),
     );
